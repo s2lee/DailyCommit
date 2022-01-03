@@ -17,7 +17,7 @@ def goodbye(request):
 @api_view(["GET"])
 def make_lotto_number(request):
     lotto_number = sample([i for i in range(1, 46)], 6)
-    return Response(lotto_number)
-
-
-
+    if 9 not in lotto_number:
+        return Response(lotto_number)
+    else:
+        return Response('fail')
