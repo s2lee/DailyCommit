@@ -12,11 +12,11 @@ from .serializers import BookSerializer
 @api_view(['GET', 'POST'])
 def book_list(request):
     if request.method == 'GET':
-        qs = Book.objects.all()
-        serializer = BookSerializer(qs, many=True)  # 객체 목록 또는 쿼리셋을 serialize 할 때 , many=True 추가
+        books = Book.objects.all()
+        serializer = BookSerializer(books, many=True)  # 객체 목록 또는 쿼리셋을 serialize 할 때 , many=True 추가
         # many => queryset 에 대응. many 없으면 instance 1개가 올 것으로 기대하고 있어 에러 발생함.
-        return Response(serializer.data)  # 클라이언트가 요청한 형태로 콘텐트를 렌더링함
-        # Response -> Http or Json 요청 콘텐트에 맞게 자동으로 렌더링
+        return Response(serializer.data)  # Response -> Http or Json 중 클라이언트가 요청한 콘텐트에 맞게 자동으로 렌더링
+
     elif request.method == 'POST':
         serializer = BookSerializer(data=request.data)
         #  장고와 달리 DRF 에서는 request 에서 데이터를 받을 때(request.data)
@@ -24,8 +24,8 @@ def book_list(request):
         #  valid 하지 않을 때는 serializer.errors 를 리턴한다.
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=201)  # 작성, 서버가 요청 접수 후 새 리소스를 작성함
-        return Response(serializer.errors, status=400)  # 잘못된 요청
+            return Response(serializer.data, status=201)  # 201 = 작성, 서버가 요청 접수 후 새 리소스를 작성함
+        return Response(serializer.errors, status=400)  # 400 = 잘못된 요청
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -48,41 +48,47 @@ def book_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# APIView - 원하는 HTTP method 를 커스터마이징 할 수 있음
 # APIView 목록, 생성
 class BookListAPIView(APIView):
+    # 해당 get method(HTTP method)를 어떻게 동작시키고 처리할지 개발자가 정의
     def get(self, request):
-        serializer = BookSerializer(Book.objects.all(), many=True)
+        books = Book.objects.all()
+        serializer = BookSerializer(books, many=True)
         return Response(serializer.data)
 
     def post(self, request):
         serializer = BookSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # APIView 상세, 수정, 삭제
 class BookDetailAPIView(APIView):
+    # get_object 메소드로 우선 존재하는 인스턴스인지 판단해준다.
+    # 인스턴스가 존재한다면 그것을 리턴한다.
+    # 여기서 리턴한 인스턴스(book)는 아래 메소드에서 공통으로 사용한다.
     def get_object(self, pk):
         return get_object_or_404(Book, pk=pk)
 
     def get(self, request, pk):
-        post = self.get_object(pk)
-        serializer = BookSerializer(post)
+        book = self.get_object(pk)
+        serializer = BookSerializer(book)
         return Response(serializer.data)
 
     def put(self, request, pk):
-        post = self.get_object(pk)
-        serializer = BookSerializer(post, data=request.data)
+        book = self.get_object(pk)
+        serializer = BookSerializer(book, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        post = self.get_object(pk)
-        post.delete()
+        book = self.get_object(pk)
+        book.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
