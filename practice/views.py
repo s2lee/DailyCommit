@@ -96,6 +96,7 @@ class BookDetailAPIView(APIView):
 class BookListMixins(mixins.ListModelMixin,
                      mixins.CreateModelMixin,
                      generics.GenericAPIView):
+
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
@@ -111,6 +112,7 @@ class BookDetailMixins(mixins.RetrieveModelMixin,
                        mixins.UpdateModelMixin,
                        mixins.DestroyModelMixin,
                        generics.GenericAPIView):
+
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
