@@ -102,10 +102,10 @@ class BookListMixins(mixins.ListModelMixin,
     serializer_class = BookSerializer
     permission_classes = [IsAdminUser]
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         return self.list(request)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         return self.create(request)
 
 
