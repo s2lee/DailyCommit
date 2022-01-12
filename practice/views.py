@@ -102,9 +102,9 @@ class BookListMixins(mixins.ListModelMixin,
     serializer_class = BookSerializer
     permission_classes = [IsAdminUser]
 
-    def get_queryset(self):
-        category = self.kwargs.get('category')
-        return Book.objects.filter(category__name=category)
+    # def get_queryset(self):
+    #     category = self.kwargs.get('category')
+    #     return Book.objects.filter(category__name=category)
 
     def get(self, request):
         return self.list(request)
