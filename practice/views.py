@@ -119,8 +119,8 @@ class BookDetailMixins(mixins.RetrieveModelMixin,
                        mixins.DestroyModelMixin,
                        generics.GenericAPIView):
 
-    queryset = Book.objects.all()
     serializer_class = BookSerializer
+    queryset = Book.objects.all()
     lookup_field = 'category'
 
     def get(self, request, *args, **kwargs):
