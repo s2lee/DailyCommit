@@ -71,11 +71,13 @@ class BookDetailAPIView(APIView):
     # get_object 메소드로 우선 존재하는 인스턴스인지 판단해준다.
     # 인스턴스가 존재한다면 그것을 리턴한다.
     # 여기서 리턴한 인스턴스(book)는 아래 메소드에서 공통으로 사용한다.
+
     def get_object(self, pk):
         return get_object_or_404(Book, pk=pk)
 
     def get(self, request, pk):
-        book = self.get_object(pk)
+        # book = self.get_object(pk)
+        book = Book.objects.get(pk=pk)
         serializer = BookSerializer(book)
         return Response(serializer.data)
 
