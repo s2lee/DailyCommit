@@ -25,7 +25,7 @@ def book_list(request):
         #  valid 하지 않을 때는 serializer.errors 를 리턴한다.
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=201)  # 201 = 작성, 서버가 요청 접수 후 새 리소스를 작성함
+            return Response(serializer.data, status=status.HTTP_201_CREATED)  # 201 = 작성, 서버가 요청 접수 후 새 리소스를 작성함
         return Response(serializer.errors, status=400)  # 400 = 잘못된 요청
 
 
@@ -102,7 +102,7 @@ class BookListMixins(mixins.ListModelMixin,
 
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAdminUser]
+    # permission_classes = (IsAdminUser, )
     #
     # def get_queryset(self):
     #     category = self.kwargs.get('category')
@@ -123,7 +123,7 @@ class BookDetailMixins(mixins.RetrieveModelMixin,
 
     serializer_class = BookSerializer
     queryset = Book.objects.all()
-    lookup_field = 'category'
+    # lookup_field = 'category'
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
