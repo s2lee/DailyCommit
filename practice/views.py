@@ -41,7 +41,7 @@ def book_detail(request, pk):
         # request 에서 data 를 받았으니 .is_valid() 필수
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, 200)
         #  numeric HTTP status codes 보다 더 명확히 표현하고 싶을 때 status code 사용
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
