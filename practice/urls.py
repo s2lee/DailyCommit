@@ -14,8 +14,8 @@ urlpatterns = [
     path('cbv_api/book/<int:pk>', views.BookDetailAPIView.as_view()),
     path('mixins/book/', views.BookListMixins.as_view()),
     path('mixins/book/<int:pk>/', views.BookDetailMixins.as_view()),
-    path('generic/book', views.BookListGenericAPIView.as_view()),
-    path('generic/book/<int:pk>', views.BookDetailGenericAPIView.as_view()),\
+    path('generic/book/<str:category>', views.BookListGenericAPIView.as_view()),
+    path('generic/book-detail/<int:pk>', views.BookDetailGenericAPIView.as_view()),
     path('viewset/', include(router.urls)),
 ]
 
