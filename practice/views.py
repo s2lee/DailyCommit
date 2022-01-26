@@ -4,12 +4,12 @@ from rest_framework import status, mixins, generics, viewsets
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
 from rest_framework.filters import SearchFilter
 
 from .models import Book
-from .serializers import BookSerializer
+from .serializers import BookSerializer, BookTestSerializer
 from .pagination import BookPageNumberPagination
+
 
 @api_view(['GET', 'POST'])
 def book_list(request):
@@ -99,8 +99,8 @@ class BookListMixins(mixins.ListModelMixin,
                      mixins.CreateModelMixin,
                      generics.GenericAPIView):
 
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+    # queryset = Book.objects.all()
+    # serializer_class = BookSerializer
     pagination_class = BookPageNumberPagination
     filter_backends = [SearchFilter]
     search_fields = ['title']
@@ -108,8 +108,14 @@ class BookListMixins(mixins.ListModelMixin,
 
     # objects 를 return 하기 위해 queryset 을 사용하거나
     # get_queryset 을 이용해서 override 하거나 아무거나 사용
-    # def get_queryset(self):
-    #     return Book.objects.all()
+    def get_queryset(self):
+        return Book.objects.all()
+
+    # serializer_class - May be overridden to provide dynamic behavior
+    def get_serializer_class(self):
+        if self.request.user.is_superuser:
+            return BookTestSerializer
+        return BookSerializer
 
     def get(self, request):
         return self.list(request)
