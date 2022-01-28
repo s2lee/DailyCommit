@@ -24,6 +24,9 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class BookTestSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Book
         fields = ('title', 'author')
+
+
