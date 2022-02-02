@@ -14,7 +14,7 @@ from .permissions import IsAdminUserOrReadOnly
 
 
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def book_list(request):
     if request.method == 'GET':
         books = Book.objects.all()

@@ -1,5 +1,6 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase, APIRequestFactory
+
 from .models import *
 from .views import *
 
@@ -11,8 +12,8 @@ class APIBasicTests(APITestCase):
         self.book = Book.objects.create(title='Zero to One',
                                         category=self.category,
                                         author='Peter Thiel')
-        self.list_url = reverse('book-list')
-        self.detail_url = reverse('book-detail', kwargs={'pk': self.book.id})
+        self.list_url = reverse('fbv-book-list')
+        self.detail_url = reverse('fbv-book-detail', kwargs={'pk': self.book.id})
         self.book_count = Book.objects.all().count()
 
     def test_get_book_list(self):
@@ -48,7 +49,7 @@ class APIBasicTests(APITestCase):
         self.assertEqual(response.data['title'], 'Zero to One')
 
     def test_update_book(self):
-        response = self.client.put(reverse('book-detail', kwargs={'pk': self.book.id}),
+        response = self.client.put(reverse('fbv-book-detail', kwargs={'pk': self.book.id}),
                                    {'title': 'Nudge', 'category': self.category.id, 'author': 'RiChard'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['author'], 'RiChard')
