@@ -4,11 +4,13 @@ from .models import Book
 
 
 class BookSerializer(serializers.ModelSerializer):
+    # ForeignKey 로 연결된 모델의 __str__ 메소드에서 정의한 string 를 리턴
+    # category = serializers.StringRelatedField()
     category_name = serializers.ReadOnlyField(source='category.name')
 
     class Meta:
         model = Book
-        fields = ('id', 'title', 'category_name', 'category', 'author', 'create_at', 'update_at')
+        fields = ('id', 'title', 'category', 'category_name', 'author', 'create_at', 'update_at')
 
     # Object-level validation
     def validate(self, data):
