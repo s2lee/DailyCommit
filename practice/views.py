@@ -2,16 +2,19 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import status, mixins, generics, viewsets
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Book
 from .serializers import BookSerializer, BookTestSerializer
 from .pagination import BookPageNumberPagination
+from .permissions import IsAdminUserOrReadOnly
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def book_list(request):
     if request.method == 'GET':
         books = Book.objects.all()
@@ -104,7 +107,6 @@ class BookListMixins(mixins.ListModelMixin,
     pagination_class = BookPageNumberPagination
     filter_backends = [SearchFilter]
     search_fields = ['title']
-    # permission_classes = (IsAdminUser, )
 
     # objects 를 return 하기 위해 queryset 을 사용하거나
     # get_queryset 을 이용해서 override 하거나 아무거나 사용
@@ -162,5 +164,7 @@ class BookDetailGenericAPIView(generics.RetrieveUpdateDestroyAPIView):
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = (IsAdminUserOrReadOnly, )
+
 
 
