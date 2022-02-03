@@ -10,7 +10,8 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ('id', 'title', 'category', 'category_name', 'author', 'create_at', 'update_at')
+        fields = ('id', 'title', 'category', 'category_name',
+                  'author', 'create_at', 'update_at')
 
     # Object-level validation
     def validate(self, data):
@@ -21,7 +22,8 @@ class BookSerializer(serializers.ModelSerializer):
     # Field-level validation - 필드값을 value 파라미터로 받아 validation 작업을 해줌
     def validate_author(self, value):
         if not value[0].isupper():
-            raise ValidationError("The first letter of the author must be uppercase")
+            raise ValidationError(
+                "The first letter of the author must be uppercase")
         return value
 
 
