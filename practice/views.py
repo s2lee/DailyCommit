@@ -103,8 +103,8 @@ class BookListMixins(mixins.ListModelMixin,
     queryset = Book.objects.all()
     # serializer_class = BookSerializer
     pagination_class = BookPageNumberPagination
-    filter_backends = [SearchFilter]
-    search_fields = ['title']
+    # filter_backends = [SearchFilter]
+    # search_fields = ['title']
 
     # objects 를 return 하기 위해 queryset 을 사용하거나
     # get_queryset 을 이용해서 override 하거나 아무거나 사용
