@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView
 from .models import Book
+from .forms import BookForm
 
 
 def book_list(request):
@@ -11,6 +13,19 @@ def book_list(request):
     }
 
     return render(request, 'fbv_book_list.html', context=context)
+
+
+def book_post(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            book = form.save(commit=False)
+            book.save()
+            return redirect('book-detail', pk=book.pk)
+    else:
+        form = BookForm()
+
+    return render(request, 'fbv_book_post.html', {'form': form})
 
 
 def book_detail(request, pk):
