@@ -28,6 +28,19 @@ def book_post(request):
     return render(request, 'fbv_book_post.html', {'form': form})
 
 
+def book_edit(request, pk):
+    post = get_object_or_404(Book, pk=pk)
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=post)
+        if form.is_valid():
+            book = form.save(commit=False)
+            book.save()
+            return redirect('book-detail', pk=post.pk)
+    else:
+        form = BookForm(instance=post)
+    return render(request, 'fbv_book_post.html', {'form': form})
+
+
 def book_detail(request, pk):
     book = get_object_or_404(Book, pk=pk)
     return render(request, 'fbv_book_detail.html', context={'book': book})
