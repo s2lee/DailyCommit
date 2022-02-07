@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>FBV Book Post</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">제출</button>
+</form>
+{% endblock %}
