@@ -1,0 +1,22 @@
+* {
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+}
+
+body {
+  overflow-y: auto;
+  margin: 50px 150px;
+  height: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}

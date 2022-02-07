@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>FBV Book Detail</h2><br>
+<div>
+    <h3>책이름 {{ book.title }}</h3>
+    <h3>카테고리 {{ book.category }}</h3>
+    <h3>저자 {{ book.author }}</h3>
+    <span>{{ book.create_at }}</span>
+  <br>
+</div>
+{% endblock %}
+
