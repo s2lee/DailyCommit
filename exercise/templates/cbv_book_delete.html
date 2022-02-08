@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <h5 class="card-title">Delete Book #{{object.id}}</h5>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            Are you sure you want to delete <strong>{{ object }}</strong> ?
+        </div>
+        <button type="submit">Delete</button>
+    </form>
+</div>
+{% endblock %}

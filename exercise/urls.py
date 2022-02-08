@@ -12,4 +12,8 @@ urlpatterns = [
     path('book/delete/<int:pk>', views.book_delete, name='book-delete'),
     path('cbv_book', views.BookListView.as_view(), name='cbv-book-list'),
     path('cbv_book/<int:pk>', views.BookDetailView.as_view(), name='cbv-book-detail'),
+    path('cbv_book/post', views.BookCreateView.as_view(), name='cbv-book-post'),
+    path('cbv_book/update/<int:pk>', views.BookUpdateView.as_view(), name='cbv-book-update'),
+    path('cbv_book/delete/<int:pk>/', views.BookDeleteView.as_view(), name='cbv-book-delete'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
