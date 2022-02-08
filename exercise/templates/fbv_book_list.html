@@ -6,7 +6,7 @@
   <h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
   <h4>{{ book.category }}</h4>
   <h4>{{ book.author }}</h4>
-  <a href="{% url 'book-edit' book.pk %}">수정</a>
+  <a href="{% url 'book-update' book.pk %}">수정</a>
   <br><br>
 </div>
 {% endfor %}

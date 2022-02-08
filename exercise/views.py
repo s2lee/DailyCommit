@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView
 from .models import Book
 from .forms import BookForm
@@ -7,12 +6,12 @@ from .forms import BookForm
 
 def book_list(request):
     books = Book.objects.all()
+    return render(request, 'fbv_book_list.html', {'books': books})
 
-    context = {
-        'books': books,
-    }
 
-    return render(request, 'fbv_book_list.html', context=context)
+def book_detail(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    return render(request, 'fbv_book_detail.html', context={'book': book})
 
 
 def book_post(request):
@@ -24,11 +23,10 @@ def book_post(request):
             return redirect('book-detail', pk=book.pk)
     else:
         form = BookForm()
-
     return render(request, 'fbv_book_post.html', {'form': form})
 
 
-def book_edit(request, pk):
+def book_update(request, pk):
     book = get_object_or_404(Book, pk=pk)
     if request.method == "POST":
         form = BookForm(request.POST, instance=book)
@@ -45,11 +43,6 @@ def book_delete(request, pk):
     book = get_object_or_404(Book, pk=pk)
     book.delete()
     return redirect('book-list')
-
-
-def book_detail(request, pk):
-    book = get_object_or_404(Book, pk=pk)
-    return render(request, 'fbv_book_detail.html', context={'book': book})
 
 
 class BookListView(ListView):
