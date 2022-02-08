@@ -9,6 +9,7 @@
     <span>수정: {{ book.update_at }}</span>
     <br>
     <a href="{% url 'book-list' %}">목록</a>
+    <a href="{% url 'book-delete' book.pk %}">삭제</a>
 </div>
 {% endblock %}
 

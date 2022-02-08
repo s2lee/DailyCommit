@@ -29,16 +29,22 @@ def book_post(request):
 
 
 def book_edit(request, pk):
-    post = get_object_or_404(Book, pk=pk)
+    book = get_object_or_404(Book, pk=pk)
     if request.method == "POST":
-        form = BookForm(request.POST, instance=post)
+        form = BookForm(request.POST, instance=book)
         if form.is_valid():
             book = form.save(commit=False)
             book.save()
-            return redirect('book-detail', pk=post.pk)
+            return redirect('book-detail', pk=book.pk)
     else:
-        form = BookForm(instance=post)
+        form = BookForm(instance=book)
     return render(request, 'fbv_book_post.html', {'form': form})
+
+
+def book_delete(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    book.delete()
+    return redirect('book-list')
 
 
 def book_detail(request, pk):
