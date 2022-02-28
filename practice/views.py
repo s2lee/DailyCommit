@@ -100,7 +100,7 @@ class BookListMixins(mixins.ListModelMixin,
                      mixins.CreateModelMixin,
                      generics.GenericAPIView):
 
-    queryset = Book.objects.all()
+    # queryset = Book.objects.all()
     # serializer_class = BookSerializer
     pagination_class = BookPageNumberPagination
     filter_backends = [SearchFilter]
@@ -108,8 +108,8 @@ class BookListMixins(mixins.ListModelMixin,
 
     # objects 를 return 하기 위해 queryset 을 사용하거나
     # get_queryset 을 이용해서 override 하거나 아무거나 사용
-    # def get_queryset(self):
-    #     return Book.objects.all()
+    def get_queryset(self):
+        return Book.objects.all()
 
     # serializer_class - May be overridden to provide dynamic behavior
     def get_serializer_class(self):
